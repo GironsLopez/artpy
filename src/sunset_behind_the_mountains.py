@@ -31,20 +31,24 @@ for i in sort:
     else:
         # get mountain height
         d = np.random.random() * 1000
+
         # get the shadows of the mountains
-        ax.scatter(x[i]-0.10, y[i]-0.25, c=z[i], marker='_', cmap='plasma',
-                   edgecolor='none', s=d*0.9, vmin=z.min(), vmax=z.max())
-        ax.scatter(x[i]-0.30, y[i]-0.35, c=z[i], marker='_', cmap='plasma',
-                   edgecolor='none', s=d*0.4, vmin=z.min(), vmax=z.max())
-        ax.scatter(x[i]-0.50, y[i]-0.45, c=z[i], marker='_', cmap='plasma',
-                   edgecolor='none', s=d*0.1, vmin=z.min(), vmax=z.max())
+        xxs = np.arange(0.1, 1.0, 0.1)
+        yys = np.arange(0.05, 0.30, 0.05)
+        dds = np.arange(0.1, 1.1, 0.2)[::-1]
+        for xx, yy, dd in zip(xxs, yys, dds):
+            ax.scatter(x[i]-xx, y[i]-yy-0.0005*d, c=z[i], marker='_',
+                       cmap='plasma', edgecolor='none', s=d*dd,
+                       vmin=z.min(), vmax=z.max())
+
         # plot the mountains
         ax.scatter(x[i], y[i], c=z[i], marker='^', cmap='plasma',
                    edgecolor='none', s=d, vmin=z.min(), vmax=z.max())
+
         # mountains above 950 m a.s.l. have snow
         if d > 950:
-            ax.scatter(x[i], y[i]+0.25, c='w', marker='^',
-                       edgecolor='none', s=15)
+            ax.scatter(x[i], y[i]+0.35, c='w', marker='^',
+                       edgecolor='none', s=25)
 
 plt.axis('off')
 plt.savefig(path + 'sunset.png', transparent=True, format='png')
